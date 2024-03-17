@@ -1,0 +1,140 @@
+<%- layout("/layouts/boilerplate") %>
+    <style>
+        #filters{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .filter{
+            text-align: center;
+            margin: 2rem 1rem;
+            opacity: 0.7;
+        }
+        .filter p {
+            font-size: 0.8rem;
+        }
+        .filter:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+        .card-price-gst{
+            display:none;
+        }
+        #filters{
+            display: flex;
+            justify-content:space-between;
+            align-items: center;
+        }
+        .tax-toggle{
+            display: flex;
+            justify-content: center;
+            align-items:center;
+            
+            border: 1px solid grey;
+            border-radius: 1rem;
+            height :3rem;
+            padding: 1rem;
+        }
+
+    </style>
+    <!-- <h1>All listings</h1> -->
+    <div id="filters">
+        <div class="filter">
+           <div > <i class="fa-solid fa-fire"></i></div>
+            <p>Trending</p>
+        </div>
+
+        <div class="filter">
+            <div > <i class="fa-solid fa-bed"></i></div>
+             <p>Rooms</p>
+         </div>
+
+         <div class="filter">
+            <div > <i class="fa-solid fa-person-swimming"></i></div>
+             <p>Amazing Pool</p>
+         </div>
+
+         <div class="filter">
+            <div > <i class="fa-solid fa-mountain-city"></i></div>
+             <p>Iconic Cities</p>
+         </div>
+
+         <div class="filter">
+            <div > <i class="fa-brands fa-fort-awesome"></i></div>
+             <p>Castles</p>
+         </div>
+
+         <div class="filter">
+            <div > <i class="fa-solid fa-campground"></i></div>
+             <p>Camping</p>
+         </div>
+
+         <div class="filter">
+            <div > <i class="fa-solid fa-cow"></i></div>
+             <p>Farms</p>
+         </div>
+
+         <div class="filter">
+            <div ><i class="fa-regular fa-snowflake"></i></div>
+             <p>Arctic</p>
+         </div>
+
+         <div class="filter">
+            <div > <i class="fa-solid fa-umbrella-beach"></i></div>
+             <p>Beach</p>
+         </div>
+
+         <div class="filter">
+            <div ><i class="fa-solid fa-mug-hot"></i></div>
+             <p>Bed & Breakfasts</p>
+         </div>
+         
+         <div class="tax-toggle ">
+            <div class="form-check-reverse form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Display Total After Taxes</label>
+              </div>
+         </div>
+    </div>
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-xs-1 mt-3">
+        <% for(let listing of allListings){ %>
+            <div class="card listing-card col">
+                <a href="/listings/<%= listing._id %>"><img src="<%= listing.image.url %>" class="card-img-top" alt="listing image" style="height: 20rem;"></a>
+                <a href="/listings/<%= listing._id %>"><div class="card-img-overlay"></div></a>
+                <div class="card-body">
+                    <p class="card-text">
+                        <a href="/listings/<%= listing._id %>"> <b><%= listing.title %></b> </a><br>
+                        <div class="card-price">&#8377; <%= listing.price.toLocaleString("en-IN") %>/Night</div>
+                        <div class="card-price-gst">&#8377; <%= listing.gst.toLocaleString("en-IN") %>/Night</div>
+                    </p>
+                </div>
+              </div>
+        <% } %>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+            let priceTags = document.querySelectorAll(".card-price");
+            let priceTagsGst = document.querySelectorAll(".card-price-gst")
+    
+            taxSwitch.addEventListener("click", () => {
+                priceTags.forEach(priceTag => {
+                    if (taxSwitch.checked) {
+                        for(price of priceTags)
+                            price.style.display = 'none';
+
+                        for(gst of priceTagsGst)
+                            gst.style.display = 'inline';
+
+                    } else {
+                        for(price of priceTags)
+                            price.style.display = 'inline';
+
+                        for(gst of priceTagsGst)
+                            gst.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+    
